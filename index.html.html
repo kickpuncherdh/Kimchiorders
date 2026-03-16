@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kimchi Place - Order Fresh Kimchi Online</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+    }
+    .logo-container { display: flex; align-items: center; gap: 15px; }
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+    .logo-placeholder {
+      height: 60px;
+      width: 60px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #c41e3a;
+      font-size: 24px;
+    }
+    .brand-name {
+      color: white; font-size: 28px; font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    nav a {
+      color: white; text-decoration: none; margin-left: 30px; font-weight: 500;
+    }
+    nav a:hover { opacity: 0.8; }
+    .hero {
+      background: linear-gradient(rgba(196,30,58,0.9), rgba(139,0,0,0.9)), url('kimchi-bg.jpg') center/cover;
+      color: white; text-align: center; padding: 80px 20px;
+    }
+    .hero h1 { font-size: 48px; margin-bottom: 20px; }
+    .hero p { font-size: 20px; max-width: 600px; margin: 0 auto; }
+    .order-section {
+      max-width: 800px; margin: 60px auto; padding: 0 20px;
+    }
+    .order-section h2 {
+      text-align: center; color: #8b0000; font-size: 36px; margin-bottom: 40px;
+    }
+    .products {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      gap: 30px; margin-bottom: 40px;
+    }
+    .product-card {
+      background: white; border-radius: 16px; padding: 30px; text-align: center;
+      box-shadow: 0 8px 24px rgba(139,0,0,0.15); border: 2px solid #ffd6d6;
+    }
+    .product-card h3 { color: #c41e3a; font-size: 28px; margin-bottom: 10px; }
+    .product-card .size { color: #666; margin-bottom: 15px; }
+    .product-card .price { font-size: 32px; color: #8b0000; margin-bottom: 20px; font-weight: bold;}
+    .quantity-selector {
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;
+    }
+    .quantity-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid #c41e3a; color: #c41e3a; background: white; font-size: 20px; cursor: pointer;
+    }
+    .quantity-btn:hover { background: #c41e3a; color: white; }
+    .quantity-input {
+      width: 60px; text-align: center; border: 2px solid #ddd; padding: 6px; border-radius: 6px;
+    }
+    .add-to-cart {
+      background: linear-gradient(135deg,#c41e3a 0%,#8b0000 100%);
+      color: white; border: none; padding: 10px 30px; border-radius: 25px;
+      cursor: pointer; font-size: 16px;
+    }
+    .cart-section {
+      background: white; max-width: 800px; margin: 0 auto 60px; padding: 30px; border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(139,0,0,0.15);
+    }
+    .cart-section h2 { color: #8b0000; margin-bottom: 20px; }
+    .cart-item {
+      display: flex; justify-content: space-between; align-items: center; padding: 10px 0;
+      border-bottom: 1px solid #ffd6d6;
+    }
+    .cart-item button {
+      background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 10px; cursor: pointer;
+    }
+    .cart-totals {
+      margin-top: 20px; border-top: 2px solid #ffd6d6; padding-top: 15px;
+    }
+    .cart-totals .line-item { display: flex; justify-content: space-between; padding: 5px 0; }
+    .line-item.total { font-weight: bold; font-size: 20px; color: #8b0000; }
+    .order-form { margin-top: 30px; }
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: 500; margin-bottom: 5px; display: block; }
+    input, textarea, select {
+      width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #ddd; font-size: 15px;
+    }
+    input:focus, textarea:focus, select:focus { border-color: #c41e3a; outline: none; }
+    .submit-order {
+      background: linear-gradient(135deg,#c41e3a 0%,#8b0000 100%);
+      color: white; padding: 12px 30px; border: none; border-radius: 25px;
+      font-size: 16px; width: 100%; cursor: pointer;
+    }
+    footer {
+      background: #2d0a0a; color: white; text-align: center; padding: 25px; font-size: 14px;
+    }
+    .locations-section {
+      background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+      color: white; padding: 60px 20px;
+    }
+    .locations-section h2 { text-align: center; font-size: 30px; margin-bottom: 15px; }
+    .locations-grid {
+      max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 25px;
+    }
+    .location-card {
+      background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+    }
+    .success-message {
+      display: none; margin-top: 20px; background: #4CAF50; color: white; padding: 15px; border-radius: 10px; text-align: center;
+    }
+    .success-message.show { display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <div class="logo-placeholder">TKP</div>
+      <span class="brand-name">The Kimchi Place</span>
+    </div>
+    <nav>
+      <a href="#order">Order</a>
+      <a href="#locations">Pickup Locations</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Fresh, Authentic Kimchi</h1>
+    <p>Handcrafted with traditional recipes and the freshest ingredients. Order online for delivery or local pickup!</p>
+  </section>
+
+  <section class="order-section" id="order">
+    <h2>Order Your Kimchi</h2>
+    <div class="products">
+      <div class="product-card">
+        <h3>Small</h3>
+        <p class="size">750ml Jar</p>
+        <p class="price">$10</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn" onclick="changeQuantity('small', -1)">−</button>
+          <input type="number" id="qty-small" class="quantity-input" value="0" min="0" readonly>
+          <button class="quantity-btn" onclick="changeQuantity('small', 1)">+</button>
+        </div>
+        <button class="add-to-cart" onclick="addToCart('small')">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <h3>Large</h3>
+        <p class="size">1L Jar</p>
+        <p class="price">$15</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn" onclick="changeQuantity('large', -1)">−</button>
+          <input type="number" id="qty-large" class="quantity-input" value="0" min="0" readonly>
+          <button class="quantity-btn" onclick="changeQuantity('large', 1)">+</button>
+        </div>
+        <button class="add-to-cart" onclick="addToCart('large')">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="cart-section">
+      <h2>🛒 Your Cart</h2>
+      <div id="cart-items"><p id="empty-cart">Your cart is empty</p></div>
+      <div class="cart-totals">
+        <div class="line-item"><span>Subtotal:</span><span>$<span id="cart-subtotal">0.00</span></span></div>
+        <div class="line-item"><span>GST (5%):</span><span>$<span id="cart-gst">0.00</span></span></div>
+        <div class="line-item total"><span>Total:</span><span>$<span id="cart-total">0.00</span></span></div>
+      </div>
+
+      <div class="order-form">
+        <h3>Complete Your Order</h3>
+        <div class="form-group"><label for="name">Full Name *</label><input type="text" id="name" required></div>
+        <div class="form-group"><label for="email">Email *</label><input type="email" id="email" required></div>
+        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" required></div>
+        <div class="form-group">
+          <label for="pickup-location">Pickup Location *</label>
+          <select id="pickup-location" required>
+            <option value="">Select a farmer's market...</option>
+            <option value="downtown">Downtown Farmer's Market</option>
+            <option value="eastside">Eastside Community Market</option>
+            <option value="riverside">Riverside Sunday Market</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="notes">Special Instructions (Optional)</label>
+          <textarea id="notes" rows="3"></textarea>
+        </div>
+        <button class="submit-order" onclick="submitOrder()">Place Order</button>
+        <div class="success-message" id="success-message">
+          <h3>✓ Order Placed Successfully!</h3>
+          <p>We'll send a confirmation email with pickup details shortly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="locations-section" id="locations">
+    <h2>📍 Pickup Locations</h2>
+    <div class="locations-grid">
+      <div class="location-card">
+        <h3>🏪 Downtown Farmer's Market</h3>
+        <p><strong>Address:</strong> 123 Main Street, Downtown</p>
+        <p>Saturdays: 8:00 AM – 2:00 PM</p>
+      </div>
+      <div class="location-card">
+        <h3>🏪 Eastside Community Market</h3>
+        <p><strong>Address:</strong> 456 Oak Avenue, Eastside</p>
+        <p>Sundays: 9:00 AM – 1:00 PM</p>
+      </div>
+      <div class="location-card">
+        <h3>🏪 Riverside Sunday Market</h3>
+        <p><strong>Address:</strong> 789 River Road, Riverside Park</p>
+        <p>Sundays: 10:00 AM – 3:00 PM</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2024 The Kimchi Place. All rights reserved.</p>
+    <p>Questions? Contact us at hello@thekimchiplace.com</p>
+  </footer>
+
+  <!-- EmailJS library -->
+  <script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js)"></script>
+  <script>
+    (function(){
+      emailjs.init("ZfAuxtoFI9BgugG7q"); // Replace with your EmailJS Public Key
+    })();
+  </script>
+
+  <script>
+    const prices = { small: 10, large: 15 };
+    const labels = { small: 'Small (750ml)', large: 'Large (1L)' };
+    const GST_RATE = 0.05;
+    let cart = { small: 0, large: 0 };
+
+    function changeQuantity(size, delta) {
+      const input = document.getElementById(`qty-${size}`);
+      let value = parseInt(input.value) + delta;
+      input.value = Math.max(value, 0);
+    }
+
+    function addToCart(size) {
+      const qty = parseInt(document.getElementById(`qty-${size}`).value);
+      if (qty > 0) {
+        cart[size] += qty;
+        document.getElementById(`qty-${size}`).value = 0;
+        updateCartDisplay();
+      }
+    }
+
+    function removeFromCart(size) {
+      cart[size] = 0;
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cartItems = document.getElementById('cart-items');
+      const subtotalEl = document.getElementById('cart-subtotal');
+      const gstEl = document.getElementById('cart-gst');
+      const totalEl = document.getElementById('cart-total');
+      let subtotal = 0;
+      let html = '';
+
+      for (const size in cart) {
+        if (cart[size] > 0) {
+          const itemTot = cart[size] * prices[size];
+          subtotal += itemTot;
+          html += `<div class="cart-item"><span>${labels[size]} × ${cart[size]}</span><span>$${itemTot.toFixed(2)}</span><button onclick="removeFromCart('${size}')">Remove</button></div>`;
+        }
+      }
+      if (!html) html = '<p id="empty-cart">Your cart is empty</p>';
+      cartItems.innerHTML = html;
+      const gst = subtotal * GST_RATE, total = subtotal + gst;
+      subtotalEl.textContent = subtotal.toFixed(2);
+      gstEl.textContent = gst.toFixed(2);
+      totalEl.textContent = total.toFixed(2);
+    }
+
+    function submitOrder() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const location = document.getElementById('pickup-location').value;
+      if (!name || !email || !phone || !location) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      if (cart.small === 0 && cart.large === 0) {
+        alert('Please add items to your cart before placing an order.');
+        return;
+      }
+
+      const subtotal = (cart.small * prices.small) + (cart.large * prices.large);
+      const gst = subtotal * GST_RATE;
+      const total = subtotal + gst;
+      let orderSummary = '';
+      for (const size in cart) {
+        if (cart[size] > 0) {
+          orderSummary += `${labels[size]} x ${cart[size]} = $${(cart[size] * prices[size]).toFixed(2)}\n`;
+        }
+      }
+
+      const orderData = {
+        to_name: "The Kimchi Place",
+        from_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        pickup_location: location,
+        order_items: orderSummary,
+        subtotal: subtotal.toFixed(2),
+        gst: gst.toFixed(2),
+        total: total.toFixed(2),
+        notes: document.getElementById('notes').value
+      };
+
+      // Replace SERVICE_ID and TEMPLATE_ID with your EmailJS IDs
+      emailjs.send("service_8pknqag", "template_1ay7fs6", orderData)
+        .then(() => {
+          document.getElementById('success-message').classList.add('show');
+          cart = { small: 0, large: 0 };
+          updateCartDisplay();
+          document.getElementById('order-form').reset();
+          setTimeout(() => document.getElementById('success-message').classList.remove('show'), 5000);
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to send order. Please try again.');
+        });
+    }
+  </script>
+</body>
+</html>
