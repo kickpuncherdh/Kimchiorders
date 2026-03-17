@@ -344,14 +344,11 @@
           document.getElementById('success-message').classList.add('show');
           cart = { small: 0, large: 0 };
           updateCartDisplay();
-          .then(() => {
-            document.getElementById('success-message').classList.add('show');
-            cart = { small: 0, large: 0 };
-            updateCartDisplay();
-  // Remove or comment out the reset line
-            setTimeout(() => document.getElementById('success-message').classList.remove('show'), 5000);
-          })
-
+          document.getElementById('name').value = '';
+          document.getElementById('email').value = '';
+          document.getElementById('phone').value = '';
+          document.getElementById('pickup-location').value = '';
+          document.getElementById('notes').value = '';
           setTimeout(() => document.getElementById('success-message').classList.remove('show'), 5000);
         })
         .catch(err => {
