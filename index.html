@@ -344,7 +344,14 @@
           document.getElementById('success-message').classList.add('show');
           cart = { small: 0, large: 0 };
           updateCartDisplay();
-          document.getElementById('order-form').reset();
+          .then(() => {
+            document.getElementById('success-message').classList.add('show');
+            cart = { small: 0, large: 0 };
+            updateCartDisplay();
+  // Remove or comment out the reset line
+            setTimeout(() => document.getElementById('success-message').classList.remove('show'), 5000);
+          })
+
           setTimeout(() => document.getElementById('success-message').classList.remove('show'), 5000);
         })
         .catch(err => {
